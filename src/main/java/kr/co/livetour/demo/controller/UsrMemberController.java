@@ -50,7 +50,7 @@ public class UsrMemberController {
 		Member member = memberService.getMemberById((int)joinRd.getData1());
 		
 		//return ResultData.from("S-1", "회원 가입이 완료되었습니다", member);
-		return ResultData.newData(joinRd, member);
+		return ResultData.newData(joinRd, "member" ,member);
 	}
 	
 	@RequestMapping("/usr/member/doLogin")

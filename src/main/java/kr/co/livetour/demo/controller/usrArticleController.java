@@ -48,7 +48,7 @@ public class usrArticleController {
 		
 		Article article = articleService.getArticle(id);
 		//return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
-		return ResultData.newData(writeArticleRd, article);
+		return ResultData.newData(writeArticleRd, "article", article);
 		
 	}
 	
@@ -56,7 +56,7 @@ public class usrArticleController {
 	@ResponseBody
 	public ResultData<List<Article>> getArticles() {
 		List<Article> articles = articleService.getArticles();
-		return ResultData.from("S-1", "게시물 리스트 입니다", articles);
+		return ResultData.from("S-1", "게시물 리스트 입니다", "articles", articles);
 	}
 	
 	@RequestMapping("/usr/article/getArticle")
@@ -70,7 +70,7 @@ public class usrArticleController {
 		}
 		
 		//return article;
-		return ResultData.from("S-1", Ut.f("%d번 게시물 입니다", id), article);
+		return ResultData.from("S-1", Ut.f("%d번 게시물 입니다", id), "article", article);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
@@ -100,7 +100,7 @@ public class usrArticleController {
 		
 		articleService.deleteArticle(id);
 		
-		return ResultData.from("F-1", Ut.f("%d번 게시물을 삭제하였습니다", id), id);
+		return ResultData.from("F-1", Ut.f("%d번 게시물을 삭제하였습니다", id), "id", id);
 	}
 	
 	@RequestMapping("/usr/article/doModify")
@@ -120,7 +120,7 @@ public class usrArticleController {
 		Article article = articleService.getArticle(id);
 		
 		if ( article == null ) {
-			return ResultData.from("F-1", Ut.f("%d번 게시물이 존재하지 않습니다", id));
+			return ResultData.from("F-1", Ut.f("%d번 게시물이 존재하지 않습니다", "id", id));
 		}
 		
 		ResultData actorCanModifyRd = articleService.actorCanModify(loginedMemberId, article);

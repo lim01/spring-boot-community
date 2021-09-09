@@ -12,4 +12,8 @@ spring:
     username: mtbsdev
     password: Password1!
 mybatis:
-  type-aliases-package: kr.co.livetour.demo.vo    
+  type-aliases-package: kr.co.livetour.demo.vo
+custom:
+  logging:
+    dir: log
+    level: debug    

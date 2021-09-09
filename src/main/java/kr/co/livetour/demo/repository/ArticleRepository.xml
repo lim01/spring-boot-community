@@ -12,17 +12,21 @@
 	</insert>
 
 	<select id="getArticles" resultType="Article">
-		SELECT *
-		FROM article
+		SELECT a.*,
+			m.nickname as extra__writeName
+		FROM article as a left join member as m
+		  on a.memberId = m.id
 		ORDER BY
-		id DESC
+		a.id DESC
 	</select>
 
 	<select id="getArticle" resultType="Article">
-		SELECT *
-		FROM article
+		SELECT a.*,
+			m.nickname as extra__writeName
+		FROM article as a left join member as m
+		  on a.memberId = m.id
 		WHERE 1
-		AND id = #{id}
+		AND a.id = #{id}
 	</select>
 
 	<select id="getLastInsertId" resultType="int">

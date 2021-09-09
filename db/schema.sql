@@ -5,18 +5,19 @@ create table article (
 	id int unsigned not null primary key auto_increment,
     regDate datetime not null,
     updateDate datetime not null,
+    memberId int(10) unsigned not null,
     title varchar(100) not null,
     body text
 );
 
-insert into article set regDate = now(), updateDate = now(), title = '제목 1', body = '내용 1';
-insert into article set regDate = now(), updateDate = now(), title = '제목 2', body = '내용 2';
-insert into article set regDate = now(), updateDate = now(), title = '제목 3', body = '내용 3';
-insert into article set regDate = now(), updateDate = now(), title = '제목 4', body = '내용 4';
-insert into article set regDate = now(), updateDate = now(), title = '제목 5', body = '내용 5';
+insert into article set regDate = now(), updateDate = now(), title = '제목 1', body = '내용 1', memberId = 2;
+insert into article set regDate = now(), updateDate = now(), title = '제목 2', body = '내용 2', memberId = 2;
+insert into article set regDate = now(), updateDate = now(), title = '제목 3', body = '내용 3', memberId = 2;
+insert into article set regDate = now(), updateDate = now(), title = '제목 4', body = '내용 4', memberId = 2;
+insert into article set regDate = now(), updateDate = now(), title = '제목 5', body = '내용 5', memberId = 2;
 
-select last_insert_id();
-select * from article;
+-- select last_insert_id();
+-- select * from article;
 
 
 # 회원 테이블 생성
@@ -69,4 +70,8 @@ nickname = '사용자2',
 cellphoneNo = '01011111111',
 email = 'jangka512@gmail.com';
 
-SELECT * FROM `member`;
+-- SELECT * FROM `member`;
+
+-- alter table article add column memberId int(10) unsigned not null after `updateDate`;
+-- desc article;
+-- update article set memberId = 2 where memberId = 0;

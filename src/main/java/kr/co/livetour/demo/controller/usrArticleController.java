@@ -2,6 +2,8 @@ package kr.co.livetour.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +21,28 @@ public class usrArticleController {
 	
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	//http://localhost:8080/usr/article/doAdd?title=제목11&body=내용11
-	public ResultData<Object> doAdd(String title, String body) {
-		if ( Ut.empty(title) ) {
-			return ResultData.from("F-1", "title(을)를 입력해 주세요");
+	// http://localhost:8080/usr/article/doAdd?title=제목11&body=내용11
+	public ResultData<Object> doAdd(HttpSession httpsession, String title, String body) {
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+		
+		if ( httpsession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
 		}
-		if ( Ut.empty(body) ) {
-			return ResultData.from("F-1", "body(을)를 입력해 주세요");
+		if ( isLogined == false ) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body);
+		
+		if ( Ut.empty(title) ) {
+			return ResultData.from("F-1", "title(을)를 입력해주세요");
+		}
+		if ( Ut.empty(body) ) {
+			return ResultData.from("F-1", "body(을)를 입력해주세요");
+		}
+		
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(loginedMemberId, title, body);
 		int id = writeArticleRd.getData1();
 		
 		
@@ -61,8 +75,24 @@ public class usrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(int id) {
+	// http://localhost:8080/usr/article/doDelete?id=1
+	public ResultData<Integer> doDelete(HttpSession httpsession, int id) {
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+		
+		if ( httpsession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
+		}
+		if ( isLogined == false ) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
+		}
+		
 		Article article = articleService.getArticle(id);
+		
+		if ( article.getId() != loginedMemberId ) {
+			return ResultData.from("F-2", "권한이 없습니다");
+		}
 		
 		if ( article == null ) {
 			//return id + "번 게시물이 존재하지 않습니다";

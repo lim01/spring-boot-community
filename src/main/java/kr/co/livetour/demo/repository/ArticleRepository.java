@@ -13,7 +13,7 @@ public interface ArticleRepository {
 	public void writeArticle(@Param("memberId") int memberId, @Param("title") String title, @Param("body") String body);
 	
 	//@Select("select * from article where id=#{id}")
-	public Article getArticle(@Param("id") int id);
+	public Article getForPrintArticle(@Param("id") int id);
 	
 	//@Delete("delete from article where id=#{id}")
 	public void deleteArticle(@Param("id") int id);
@@ -22,7 +22,7 @@ public interface ArticleRepository {
 	public void modifyArticle(@Param("id") int id, @Param("title") String title, @Param("body") String body);
 	
 	//@Select("select * from article order by id desc")
-	public List<Article> getArticles();
+	public List<Article> getForPrintArticles();
 
 	//@Select("select last_insert_id()")
 	public int getLastInsertId();
